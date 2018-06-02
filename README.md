@@ -9,3 +9,4 @@ Démarrer l'application sur localhost:3000
   npm start  
 ## Description de l'environnement
 Le code à produire se trouve dans le dossier src.  
+Le dossier Page contient les différentes pages de l'application.  
