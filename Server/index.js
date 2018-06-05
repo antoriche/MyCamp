@@ -1,12 +1,16 @@
 import express from 'express';
 import path from 'path';
 import cors from 'cors';
+import controllers from './Controllers';
+import config from './config.json';
+import bodyParser from 'body-parser';
+
 
 const app = express();
 
-const port = 8080;
-
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({ type: 'application/*+json' }));
 
 app.get('/', function (req, res) {
   console.log("request");
@@ -16,8 +20,10 @@ app.get('/', function (req, res) {
 app.get('/ping', function (req, res) {
   console.log('Server has been pinged');
   res.send('pong')
-})
+});
 
-app.listen(port, function () {
-  console.log(`Server listening on port ${port}!`)
+controllers.forEach( controller => controller(app) );
+
+app.listen(config.port, function () {
+  console.log(`Server listening on port ${config.port}!`)
 })
