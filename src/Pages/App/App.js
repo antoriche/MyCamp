@@ -5,7 +5,7 @@ import Intranet from '../Intranet';
 import Login from '../Login';
 import Account from '../Account';
 import './App.css';
-import { AppBar, SwipeableDrawer as Drawer, Toolbar, IconButton, Typography, MenuItem, Divider } from '@material-ui/core';
+import { AppBar, SwipeableDrawer as Drawer, Tooltip, Toolbar, IconButton, Typography, MenuItem, Divider } from '@material-ui/core';
 import Image from 'material-ui-image';
 import { Menu, ExitToApp } from '@material-ui/icons';
 import imageHeader from './header2.jpg';
@@ -50,19 +50,20 @@ class App extends Component {
               <Typography variant="title" color="inherit" noWrap style={{ flex: 1}} >
                 MyCamp
               </Typography>
-              <IconButton
-                style={{ display: !isAuth() ? 'none' : undefined }}
-                onClick={()=>{
-                  logout().then(() => {
-                    console.log("logout");
-                    this.forceUpdate();
-                  });
-                }}
-                color="inherit"
-              >
-                <ExitToApp />
-              </IconButton>
-              
+              <Tooltip title="Déconnexion" placement="bottom">
+                <IconButton
+                  style={{ display: !isAuth() ? 'none' : undefined }}
+                  onClick={()=>{
+                    logout().then(() => {
+                      console.log("logout");
+                      this.forceUpdate();
+                    });
+                  }}
+                  color="inherit"
+                >
+                  <ExitToApp />
+                </IconButton>
+              </Tooltip>
             </Toolbar>
           </AppBar>
           <Drawer

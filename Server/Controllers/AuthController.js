@@ -17,7 +17,7 @@ export default (app) => {
       return res.status(400).send({ auth: false, error: "Champs invalides" });
     }
     User.load(email).then(user => {
-      if(bcrypt.compareSync(password, user.password)){
+      if(user != null && bcrypt.compareSync(password, user.password)){
         console.log('auth succeed');
         const token = generateToken({ id: user.id });
         res.status(200).send({ auth: true, token: token });
