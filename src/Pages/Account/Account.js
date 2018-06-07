@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Account.css';
 import Login from '../Login'
-import { TextField, MenuItem, Grid, Typography, List, ListItem, ListItemText } from '@material-ui/core';
+import { TextField, MenuItem, Grid, Typography, List, ListItem, ListItemText, Button, Paper } from '@material-ui/core';
 
 const ENVS = ['PHP', 'NODE', 'HTML'];
 
@@ -11,7 +11,8 @@ class Account extends Component {
     name: '',
     url: '',
     git: '',
-    env: ''
+    env: '',
+    keywords:''
   }
 
   handleChange = name => event => {
@@ -28,7 +29,7 @@ class Account extends Component {
           Mes Projets
         </Typography>
         <Grid container spacing={24}>
-          <Grid item xs={12} sm={4} >
+          <Grid item >
             <List component="nav" >
               <ListItem style={{ backgroundColor : "#E0E0E0" }} button>
                 <ListItemText primary="Projet 1" />
@@ -38,7 +39,7 @@ class Account extends Component {
               </ListItem>
             </List>
           </Grid>
-          <Grid item xs={12} sm={8} >
+          <Grid item >
             <form noValidate>
               <TextField
                 label="Nom"
@@ -63,8 +64,8 @@ class Account extends Component {
                 label="Environnement"
                 value={this.state.env}
                 onChange={this.handleChange('env')}
-                helperText="Environnement du serveur"
                 margin="normal"
+                style={{ width: 200 }}
               >
                 {ENVS.map(env => (
                   <MenuItem key={env} value={env}>
@@ -72,6 +73,18 @@ class Account extends Component {
                   </MenuItem>
                 ))}
               </TextField> <br />
+              <TextField
+                multiline
+                label="Mots clés"
+                value={this.state.keywords}
+                onChange={this.handleChange('keywords')}
+                margin="normal"
+                style={{ width: 200 }}
+                helperText="Les mots clés doivent être séparés par des virgules"
+              /> <br />
+              <Button style={{ marginTop: 20 }} onClick={() => {}}  variant="raised" >
+                Publier
+              </Button>
             </form>
           </Grid>
         </Grid>
