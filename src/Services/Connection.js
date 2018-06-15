@@ -3,7 +3,10 @@ import axios from 'axios';
 const port = 8080;
 
 const request = axios.create({
-  baseURL: 'http://'+window.location.hostname+':'+port+'/api'
+  baseURL: 'http://'+window.location.hostname+':'+port+'/api',
+  headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+  }
 });
 
 const token = token_ => {
@@ -13,7 +16,7 @@ const token = token_ => {
   sessionStorage.token = typeof(token_) === 'string' ? token_ : null;
 }
 
-export const isAuth = () => { console.log(token() != null); return token() != null; };
+export const isAuth = () => { return token() != null; };
 
 const authListeners = [];
 export const onAuth = (callback) => {
@@ -44,3 +47,19 @@ export const logout = () => (
     resolve();
   })
 );
+
+export const getProjects = () => (
+  request.get('/project', { params : { token: token() }}).then(resp => resp.data.projects)
+)
+
+export const insertProject = (project) => (
+  request.post('/project', {}, { params: { token: token(), project }}).then(resp => resp.data.project)
+)
+
+export const updateProject = (project) => (
+  request.put('/project/'+project.id, {}, { params : { token: token(), project }}).then(resp => resp.data.project)
+)
+
+export const deleteProject = (id) => (
+  request.delete('/project/'+id, { params : { token: token() }}).then(resp => resp.data.project)
+)

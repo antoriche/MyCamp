@@ -30,6 +30,18 @@ export const findUserByEmail = email => (
   )
 );
 
+export const findUserById = id => (
+  waitToBeConnected.then( _ =>
+    new Promise((resolve, reject) => {
+      db.query(`SELECT * FROM users WHERE id=${id};`, (err, result) => {
+        if (err) reject(err);
+        if(!result[0]) resolve(null);
+        else resolve( new User(result[0]) );
+      });
+    })
+  )
+);
+
 export const insertUser = user => (
   waitToBeConnected.then( _ =>
     new Promise((resolve, reject) => {

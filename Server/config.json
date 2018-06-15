@@ -2,7 +2,7 @@
   "port": 8080,
   "secret": "secretToken",
   "database":{
-    "useMock":false,
+    "useMock": true,
     "name": "MyCamp",
     "host":"localhost",
     "user":"root",

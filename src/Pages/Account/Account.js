@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import './Account.css';
 import Login from '../Login'
-import { TextField, MenuItem, Grid, Typography, List, ListItem, ListItemText, Button, Paper } from '@material-ui/core';
-
-const ENVS = ['PHP', 'NODE', 'HTML'];
+import { Grid, Paper, Typography, List, ListItem, ListItemText } from '@material-ui/core';
+import ProjectForm from '../../Components/ProjectForm';
+import { getProjects, insertProject, updateProject, deleteProject } from '../../Services/Connection';
+import Error from '../../Components/Error';
+import ConfirmDialog from '../../Components/ConfirmDialog';
 
 class Account extends Component {
   
   state = {
-    name: '',
-    url: '',
-    git: '',
-    env: '',
-    keywords:''
+    selection: undefined,
+    list:[]
+  }
+  
+  componentDidMount() {
+    getProjects().then(projects => this.setState({ list : projects }));
   }
 
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    });
-  };
+  error = () => {}
+  dialog = () => {}
   
   render() {
     return (
@@ -31,63 +31,48 @@ class Account extends Component {
         <Grid container spacing={24}>
           <Grid item >
             <List component="nav" >
-              <ListItem style={{ backgroundColor : "#E0E0E0" }} button>
-                <ListItemText primary="Projet 1" />
-              </ListItem>
-              <ListItem button>
-                <ListItemText primary="Projet 2" />
+              {
+                this.state.list.map(project => (
+                  <ListItem key={project.id} onClick={_ => this.setState({ selection: project })} style={{ backgroundColor : (project === this.state.selection) ? "#E0E0E0" : undefined }} button>
+                    <ListItemText primary={project.name} />
+                  </ListItem>
+                ))
+              }
+              <ListItem onClick={_ => this.setState({ selection: null })} style={{ backgroundColor : (this.state.selection === null) ? "#E0E0E0" : undefined }} button>
+                <ListItemText primary="Nouveau Projet" />
               </ListItem>
             </List>
           </Grid>
           <Grid item >
-            <form noValidate>
-              <TextField
-                label="Nom"
-                value={this.state.name}
-                onChange={this.handleChange('name')}
-                margin="normal"
-              /> <br />
-              <TextField
-                label="URL"
-                value={this.state.url}
-                onChange={this.handleChange('url')}
-                margin="normal"
-              /> <br />
-              <TextField
-                label="Adresse Git"
-                value={this.state.git}
-                onChange={this.handleChange('git')}
-                margin="normal"
-              /> <br />
-              <TextField
-                select
-                label="Environnement"
-                value={this.state.env}
-                onChange={this.handleChange('env')}
-                margin="normal"
-                style={{ width: 200 }}
-              >
-                {ENVS.map(env => (
-                  <MenuItem key={env} value={env}>
-                    {env}
-                  </MenuItem>
-                ))}
-              </TextField> <br />
-              <TextField
-                multiline
-                label="Mots clés"
-                value={this.state.keywords}
-                onChange={this.handleChange('keywords')}
-                margin="normal"
-                style={{ width: 200 }}
-                helperText="Les mots clés doivent être séparés par des virgules"
-              /> <br />
-              <Button style={{ marginTop: 20 }} onClick={() => {}}  variant="raised" >
-                Publier
-              </Button>
-            </form>
+            <ProjectForm
+              onDelete={(id) => {
+                this.dialog("",`Supprimer le projet "${this.state.selection.name}" ?`).then(ok => {
+                  if(!ok)return;
+                  deleteProject(id).then((project) => {
+                    const list = [...this.state.list];
+                    list.splice(list.indexOf(list.filter(e => e.id === project.id)[0]), 1);
+                    this.setState({ list, selection : null });
+                  }).catch(err => this.error(err));
+                });
+              }}
+              onSubmit={(project) => {
+                project.id ?
+                  updateProject(project).then(proj => {
+                    const list = [...this.state.list];
+                    list[list.indexOf(list.filter(e => e.id === proj.id)[0])] = proj;
+                    this.setState({ list, selection : proj })
+                  }).catch(err => this.error(err))
+                :
+                  insertProject(project).then(proj => {
+                    this.setState({list : [...this.state.list, proj], selection : proj })
+                  }).catch(err => this.error(err))
+              }}
+              project={this.state.selection}
+            />
           </Grid>
         </Grid>
+        <Error onRef={display => this.error=display}/>
+        <ConfirmDialog onRef={dialog => this.dialog=dialog}/>
       </div>
     );
   }

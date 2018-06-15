@@ -10,8 +10,8 @@ const app = express();
 const api = express.Router();
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json({ type: 'application/*+json' }));
+api.use(bodyParser.urlencoded({ extended: false }));
+api.use(bodyParser.json({ type: 'application/*+json' }));
 
 api.get('/ping', function (req, res) {
   console.log('Server has been pinged');
