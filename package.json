@@ -1,13 +1,40 @@
 {
-    "devDependencies": {
-        "@symfony/webpack-encore": "^0.19.0"
-    },
-    "license": "UNLICENSED",
-    "private": true,
-    "scripts": {
-        "dev-server": "encore dev-server",
-        "dev": "encore dev",
-        "watch": "encore dev --watch",
-        "build": "encore production"
-    }
+  "name": "mycamp",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^1.1.0",
+    "@material-ui/icons": "^1.1.0",
+    "axios": "^0.18.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "jsonwebtoken": "^8.2.2",
+    "material-ui-image": "^3.0.0",
+    "mysql": "^2.15.0",
+    "prop-types": "^15.6.1",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-full-screen": "^0.2.2",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "concurrently 'npm run backend:start' 'npm run frontend:start'",
+    "dev": "concurrently 'npm run backend:dev' 'npm run frontend:start'",
+    "prod": "npm run frontend:build && npm run backend:start",
+    "frontend:start": "react-scripts start",
+    "frontend:build": "react-scripts build",
+    "frontend:kill": "fuser -k 3000/tcp ",
+    "backend:start": "babel-node ./Server/index.js",
+    "backend:dev": "echo 'Warning : nodemon will not kill the process at reload'; nodemon ./Server/index.js --exec 'babel-node'",
+    "backend:kill": "fuser -k 8080/tcp "
+  },
+  "devDependencies": {
+    "babel-plugin-import": "^1.7.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-preset-env": "^1.7.0",
+    "concurrently": "^3.5.1"
+  }
 }
