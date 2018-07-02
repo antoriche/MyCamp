@@ -83,3 +83,9 @@ export const deleteProject = id => (
     resolve(new Project(project));
   })
 );
+
+export const getAllProjects = _ => (
+  new Promise((resolve, reject) => {
+    resolve(projects.map(proj => new Project(proj)));
+  })
+);

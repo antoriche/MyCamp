@@ -27,4 +27,4 @@ CREATE TABLE keywords(
 );
 
 
-INSERT INTO users (email, password) VALUES ("a@a.be", "$2a$08$7xs2TSaM2eoLZdFRpmPYT.m.WfYck.zQ8QgmWVHj1Z6GKrSZQE2rC") -- password : coucou
+INSERT INTO users (email, password) VALUES ("a@a.be", "$2a$08$7xs2TSaM2eoLZdFRpmPYT.m.WfYck.zQ8QgmWVHj1Z6GKrSZQE2rC") -- coucou : coucou

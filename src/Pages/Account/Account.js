@@ -3,19 +3,19 @@ import './Account.css';
 import Login from '../Login'
 import { Grid, Paper, Typography, List, ListItem, ListItemText } from '@material-ui/core';
 import ProjectForm from '../../Components/ProjectForm';
-import { getProjects, insertProject, updateProject, deleteProject } from '../../Services/Connection';
+import { getMyProjects, insertProject, updateProject, deleteProject } from '../../Services/Connection';
 import Error from '../../Components/Error';
 import ConfirmDialog from '../../Components/ConfirmDialog';
 
 class Account extends Component {
   
   state = {
-    selection: undefined,
+    selection: null,
     list:[]
   }
   
   componentDidMount() {
-    getProjects().then(projects => this.setState({ list : projects }));
+    getMyProjects().then(projects => this.setState({ list : projects }));
   }
 
   error = () => {}

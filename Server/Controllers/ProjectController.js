@@ -67,8 +67,8 @@ export default (app) => {
     }
   });
   
-  app.get('/project', (req, res) => {
-    console.log("get projects : ");
+  app.get('/project/my', (req, res) => {
+    console.log("get my projects : ");
     try{
       const { token } = req.query;
       const tokenData = getTokenData(token);
@@ -83,6 +83,20 @@ export default (app) => {
         }).catch(err => {
           res.status(500).send({ error: err.message }).end();
         });
+      });
+    } catch(err) {
+      console.log(err.message);
+      return res.status(500).send({ error: err.message }).end();
+    }
+  });
+  
+  app.get('/project', (req, res) => {
+    console.log("get projects : ");
+    try{
+      Project.getAllProjects().then(projects => {
+        res.status(200).send({ projects }).end()
+      }).catch(err => {
+        res.status(500).send({ error: err.message }).end();
       });
     } catch(err) {
       console.log(err.message);

@@ -104,7 +104,7 @@ class ProjectForm extends Component<Props> {
             </MenuItem>
           ))}
         </TextField> <br />
-        <TextField
+          {/*<TextField
           multiline
           label="Mots clés"
           value={this.state.keywords}
@@ -112,7 +112,7 @@ class ProjectForm extends Component<Props> {
           margin="normal"
           style={{ width: 200 }}
           helperText="Les mots clés doivent être séparés par des virgules"
-        /> <br />
+        /> <br />*/}
         <div style={{ marginTop: 20 }} >
           <Button onClick={() => this.submit()}  variant="raised" >
             Publier

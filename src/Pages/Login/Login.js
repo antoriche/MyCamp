@@ -3,7 +3,7 @@ import { Redirect } from 'react-router';
 import './Login.css';
 import { TextField, Typography, Button, CircularProgress } from '@material-ui/core';
 import { login, isAuth } from '../../Services/Connection';
-import Error from '../../Components/Error';
+import ErrorMessage from '../../Components/Error';
 
 class Login extends Component {
   
@@ -71,7 +71,7 @@ class Login extends Component {
             </div>
           </form>
         </center>
-        <Error onRef={display => this.error=display}/>
+        <ErrorMessage onRef={display => this.error=display}/>
       </div>
     );
   }

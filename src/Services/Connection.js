@@ -48,8 +48,12 @@ export const logout = () => (
   })
 );
 
+export const getMyProjects = () => (
+  request.get('/project/my', { params : { token: token() }}).then(resp => resp.data.projects)
+)
+
 export const getProjects = () => (
-  request.get('/project', { params : { token: token() }}).then(resp => resp.data.projects)
+  request.get('/project').then(resp => resp.data.projects)
 )
 
 export const insertProject = (project) => (

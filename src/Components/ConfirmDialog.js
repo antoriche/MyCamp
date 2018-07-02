@@ -8,13 +8,13 @@ type Props = {
 
 class ConfirmDialog extends Component<Props> {
   
-  state = {}
+  state = { title : "", text: "" }
 
   display = (title,text) => (
     new Promise((resolve, reject) => {
       this.setState({ title, text });
       this.listener = (ok) => {
-        this.setState({ title : null, text: null});
+        this.setState({ title : "", text: ""});
         resolve(ok);
       };
     })
