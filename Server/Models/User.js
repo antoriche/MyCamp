@@ -23,7 +23,9 @@ export default class User {
           return reject(new Error("Email already used"));
         }
         db.insertUser(data).then(user => {
-          resolve(user);
+          SSH.registerUser(user.email, data.unsecuredPassword).then(_ => {
+            resolve(user);
+          });
         });
       });
     });

@@ -12,6 +12,7 @@
     "jsonwebtoken": "^8.2.2",
     "material-ui-image": "^3.0.0",
     "mysql": "^2.15.0",
+    "node-ssh": "^5.1.2",
     "prop-types": "^15.6.1",
     "random-material-color": "^1.0.3",
     "react": "^16.4.0",

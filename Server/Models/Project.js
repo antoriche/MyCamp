@@ -1,4 +1,5 @@
 import db from '../DataBase';
+import * as SSH from '../Services/SSH';
 
 export default class Project {
   
@@ -15,15 +16,38 @@ export default class Project {
   }
   
   update(){
-    return db.updateProject(this);
+    return db.findProjectById(this.id).then(oldProject => {
+      return db.updateProject(this).then(project => {
+        return db.findUserById(project.user_id).then(user => {
+          return Object.assign(project, { user : Object.assign(user, {password : null}) });
+        }).then(proj => {
+          SSH.removeProject(oldProject).then(_ => SSH.setupProject(proj));
+          return proj;
+        });
+      });
+    });
   }
   
   delete(){
-    return db.deleteProject(this.id);
+    return db.deleteProject(this.id).then(project => {
+      return db.findUserById(project.user_id).then(user => {
+        return Object.assign(project, { user : Object.assign(user, {password : null}) });
+      }).then(proj => {
+        SSH.removeProject(proj);
+        return proj;
+      });
+    });
   }
   
   static create(data) {
-    return db.insertProject(new Project(data));
+    return db.insertProject(new Project(data)).then(project => {
+      return db.findUserById(project.user_id).then(user => {
+        return Object.assign(project, { user : Object.assign(user, {password : null}) });
+      }).then(proj => {
+        SSH.setupProject(proj);
+        return proj;
+      });
+    });
   }
   
   static load(id) {

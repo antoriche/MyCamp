@@ -7,5 +7,10 @@
     "host":"localhost",
     "user":"root",
     "password":"root"
+  },
+  "ssh":{
+    "host": "localhost",
+    "username": "cabox",
+    "password":""
   }
 }
