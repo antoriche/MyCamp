@@ -28,9 +28,11 @@ class ProjectCard extends Component<Props> {
           <Typography gutterBottom variant="headline" component="h2">
             {this.props.project.name}
           </Typography>
+          <Typography component="p" paragraph variant="caption">
+            {this.props.project.url} - {this.props.project.user.email}
+          </Typography>
           <Typography component="p">
-            {this.props.project.url}<br/>
-            {this.props.project.user.email}
+            {this.props.project.description}
           </Typography>
         </CardContent>
         <CardActions>

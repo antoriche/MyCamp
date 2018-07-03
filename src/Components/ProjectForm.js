@@ -7,6 +7,7 @@ type Props = {
   project?: {
     id: number,
     name: string,
+    description: string,
     url: string,
     git: string,
     env: string,
@@ -20,6 +21,7 @@ class ProjectForm extends Component<Props> {
   
   state = {
     name: '',
+    description: '',
     url: '',
     git: '',
     env: '',
@@ -28,16 +30,17 @@ class ProjectForm extends Component<Props> {
 
   componentWillReceiveProps(props) {
     this.props = props;
-    const { name, url, git, env, keywords } = props.project
+    const { name, description, url, git, env, keywords } = props.project
     || {
       name: '',
+      description: '',
       url: '',
       git: '',
       env: '',
       keywords: []
     };
     this.setState({
-      name, url, git, env,
+      name, description, url, git, env,
       keywords: keywords.join(', ')
     });
   }
@@ -52,6 +55,7 @@ class ProjectForm extends Component<Props> {
     const keywords = this.state.keywords.replace(/\s/g,',').split(',').filter(s => s?true:false).filter((item, pos, array) => array.indexOf(item) == pos);
     return Object.assign({}, this.props.project, {
       name: this.state.name,
+      description: this.state.description,
       url: this.state.url,
       git: this.state.git,
       env: this.state.env,
@@ -77,6 +81,14 @@ class ProjectForm extends Component<Props> {
           value={this.state.name}
           onChange={this.handleChange('name')}
           margin="normal"
+        /> <br />
+        <TextField
+          multiline
+          label="Description"
+          value={this.state.description}
+          onChange={this.handleChange('description')}
+          margin="normal"
+          style={{ width: 200 }}
         /> <br />
         <TextField
           label="URL"

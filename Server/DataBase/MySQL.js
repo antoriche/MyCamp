@@ -84,7 +84,7 @@ export const findProjectById = id => (
 export const insertProject = project => (
   waitToBeConnected.then( _ =>
     new Promise((resolve, reject) => {
-      db.query(`INSERT INTO projects (user_id, name, url, git, env) VALUES (${project.user_id}, "${project.name}", "${project.url}", "${project.git}", "${project.env}" );`, (err, result) => {
+      db.query(`INSERT INTO projects (user_id, name, description, url, git, env) VALUES (${project.user_id}, "${project.name}", "${project.description}", "${project.url}", "${project.git}", "${project.env}" );`, (err, result) => {
         if (err) return reject(err);
         resolve( new Project(Object.assign({}, project, { id: result.insertId }) ));
       });
@@ -95,7 +95,7 @@ export const insertProject = project => (
 export const updateProject = project => (
   waitToBeConnected.then( _ =>
     new Promise((resolve, reject) => {
-      db.query(`UPDATE projects SET user_id=${project.user_id}, name="${project.name}", url="${project.url}", git="${project.git}", env="${project.env}" WHERE id=${project.id};`, (err, result) => {
+      db.query(`UPDATE projects SET user_id=${project.user_id}, name="${project.name}", description="${project.description}", url="${project.url}", git="${project.git}", env="${project.env}" WHERE id=${project.id};`, (err, result) => {
         if (err) return reject(err);
         resolve( new Project(project) );
       });

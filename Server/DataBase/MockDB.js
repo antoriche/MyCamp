@@ -48,6 +48,7 @@ export const insertProject = project => (
   new Promise((resolve, reject) => {
     const projectData = {
       name:project.name,
+      description: project.description,
       user_id: project.user_id,
       url:project.url,
       git:project.git,
@@ -65,6 +66,7 @@ export const updateProject = project => (
     const projectData = {
       id: project.id,
       name: project.name,
+      description: project.description,
       user_id: project.user_id,
       url:project.url,
       git:project.git,

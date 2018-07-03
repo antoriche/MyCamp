@@ -7,6 +7,7 @@ export default class Project {
     this.id = data.id;
     this.user_id = data.user_id;
     this.name = data.name;
+    this.description = data.description || "";
     this.url = data.url;
     this.git = data.git;
     this.env = data.env;
