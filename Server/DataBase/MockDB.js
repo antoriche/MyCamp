@@ -3,8 +3,8 @@ import Project from '../Models/Project';
 import bcrypt from 'bcryptjs';
 
 
-const users = [{id: 1, email: 'a', password: bcrypt.hashSync('password', 8) }];
-const projects = [{ id: 1, user_id: 1, name:'Projet 1', url:'projet1.jsb', git:'gitlab.jsb/projet1', env: 'PHP', keywords: ['A'] }];
+const users = [{id: 1, email: 'a@a.be', password: bcrypt.hashSync('password', 8) }];
+const projects = [{ id: 1, user_id: 1, name:'Projet 1', description:'Ceci est une description.', url:'http://projet1.jsb', git:'http://gitlab.jsb/projet1', env: 'PHP', keywords: ['A'] }];
 
 export const findUserByEmail = email => (
   new Promise((resolve, reject) => {

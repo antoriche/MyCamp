@@ -11,6 +11,7 @@ const db = mysql.createConnection({
 });
 
 const waitToBeConnected = new Promise((resolve, reject) => {
+  if(config.database.useMock)return;
   db.connect((err) => {
     if (err) reject(err);
     console.log("Connected to MySQL!");

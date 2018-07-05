@@ -16,15 +16,23 @@ export default class Project {
   }
   
   update(){
-    return db.findProjectById(this.id).then(oldProject => {
-      return db.updateProject(this).then(project => {
+    return db.findProjectById(this.id).then(oldProjectWithoutUser => {
+      return db.findUserById(oldProjectWithoutUser.user_id).then(user => {
+        if(!user) throw new Error("User "+oldProjectWithoutUser.user_id+" cannot be found while project update");
+        Object.assign(user, {password : null})
+        console.log(user);
+        return Object.assign({}, oldProjectWithoutUser, { user });
+      }).then(oldProject => db.updateProject(this).then(project => {
         return db.findUserById(project.user_id).then(user => {
-          return Object.assign(project, { user : Object.assign(user, {password : null}) });
+          if(!user) throw new Error("User "+project.user_id+" cannot be found while project update");
+          Object.assign(user, {password : null})
+          console.log(user);
+          return Object.assign({}, project, { user });
         }).then(proj => {
           SSH.removeProject(oldProject).then(_ => SSH.setupProject(proj));
           return proj;
-        });
-      });
+        }).catch(err => {throw err;});
+      }));
     });
   }
   

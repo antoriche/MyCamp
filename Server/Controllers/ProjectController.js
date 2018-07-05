@@ -40,6 +40,7 @@ export default (app) => {
       new Project(Object.assign({}, JSON.parse(project), { id : parseInt(id), user_id : tokenData.user })).update().then(newProject => {
         res.status(200).send({ project: newProject }).end();
       }).catch(err => {
+        console.error(err);
         res.status(500).send({ error: err.message }).end();
       });
     } catch(err) {
