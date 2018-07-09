@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import './Login.css';
-import { TextField, Typography, Button, CircularProgress, Snackbar, SnackbarContent, IconButton } from '@material-ui/core';
-import { Close as CloseIcon, Error as ErrorIcon } from '@material-ui/icons';
+import { TextField, Typography, Button, CircularProgress } from '@material-ui/core';
 import { login, isAuth } from '../../Services/Connection';
+import ErrorMessage from '../../Components/Error';
 
 class Login extends Component {
   
@@ -11,8 +11,9 @@ class Login extends Component {
     email: '',
     password: '',
     isLoading : false,
-    error: undefined
   };
+
+  error = () => {}
   
   handleChange = name => event => {
     this.setState({
@@ -23,7 +24,10 @@ class Login extends Component {
   submit = () => {
     this.setState({isLoading: true});
     login(this.state.email, this.state.password)
-      .catch(err => { this.setState({ isLoading: false, error : err.response.data.error })})
+      .catch(err => {
+        this.setState({ isLoading: false })
+        this.error(new Error(err.response.data.error));
+      })
   };
 
   static requireAuth() {
@@ -67,35 +71,7 @@ class Login extends Component {
             </div>
           </form>
         </center>
-        <Snackbar
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          open={this.state.error ? true : false}
-          autoHideDuration={6000}
-          onClose={() => this.setState({ error: null})}
-        >
-          <SnackbarContent
-            style={{ backgroundColor: 'rgb(211, 47, 47)'}}
-            message={
-              <span id="client-snackbar" style={{display: 'flex', alignItems: 'center' }}>
-                <ErrorIcon style={{ fontSize: 20, marginRight: 10 }} />
-                {this.state.error}
-              </span>
-            }
-            action={[
-              <IconButton
-                key="close"
-                aria-label="Close"
-                color="inherit"
-                onClick={() => this.setState({ error: null})}
-              >
-                <CloseIcon />
-              </IconButton>,
-            ]}
-          />
-        </Snackbar>
+        <ErrorMessage onRef={display => this.error=display}/>
       </div>
     );
   }

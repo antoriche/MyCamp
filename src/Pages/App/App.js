@@ -79,9 +79,6 @@ class App extends Component {
                 imageStyle={{ width: 'inherit', height: 'inherit' }	}
                 src={imageHeader}
               />
-              <div style={{ position: 'absolute', top: 0, width: 'calc( 100% - 10px )', padding: 5, fontSize: 18 }} >
-                {"{{"} Citation du jour {"}}"}
-              </div>
             </div>
             {
               isAuth() ?

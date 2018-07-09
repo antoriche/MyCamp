@@ -12,7 +12,9 @@
     "jsonwebtoken": "^8.2.2",
     "material-ui-image": "^3.0.0",
     "mysql": "^2.15.0",
+    "node-ssh": "^5.1.2",
     "prop-types": "^15.6.1",
+    "random-material-color": "^1.0.3",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-full-screen": "^0.2.2",
@@ -29,7 +31,8 @@
     "frontend:kill": "fuser -k 3000/tcp ",
     "backend:start": "babel-node ./Server/index.js",
     "backend:dev": "echo 'Warning : nodemon will not kill the process at reload'; nodemon ./Server/index.js --exec 'babel-node'",
-    "backend:kill": "fuser -k 8080/tcp "
+    "backend:kill": "fuser -k 8080/tcp ",
+    "setupDB": "babel-node ./setupDB.js"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.7.0",

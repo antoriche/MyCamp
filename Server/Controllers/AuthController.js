@@ -1,32 +1,25 @@
 import User from '../Models/User';
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import config from '../config.json';
-
-const generateToken = (data) => (
-  jwt.sign(data, config.secret, {
-    expiresIn: 86400 * 10 // expires in 10 days
-  })
-);
+import { generateToken } from '../Services/Authentification'
 
 export default (app) => {
   
   app.get('/login', (req, res) => {
     const { email, password } = req.query || {};
     if(!email || !password){
-      return res.status(400).send({ auth: false, error: "Champs invalides" });
+      return res.status(400).send({ auth: false, error: "Champs invalides" }).end();
     }
-    User.load(email).then(user => {
+    User.loadByEmail(email).then(user => {
       if(user != null && bcrypt.compareSync(password, user.password)){
         console.log('auth succeed');
-        const token = generateToken({ id: user.id });
-        res.status(200).send({ auth: true, token: token });
+        const token = generateToken({ user: user.id });
+        res.status(200).send({ auth: true, token: token }).end();
       }else{
         console.log('auth fail');
-        res.status(401).send({ auth: false, error: "Echec de l'authentification" });
+        res.status(401).send({ auth: false, error: "Echec de l'authentification" }).end();
       }
     }).catch(err => {
-      res.status(500).send({ auth: false, error: err.message })
+      res.status(500).send({ auth: false, error: err.message }).end();
     });
   });
   
@@ -36,13 +29,14 @@ export default (app) => {
   
     User.create({
       email,
-      password : hashedPassword
+      password : hashedPassword,
+      unsecuredPassword : password
     }).then((user) => {
         const token = generateToken({ id: user.id });
         res.status(200).send({ auth: true, token: token });
     }).catch(err => {
       res.status(500).send(err.message)
-    });   
+    });
   });
   
 }

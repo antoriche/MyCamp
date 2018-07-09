@@ -2,10 +2,16 @@
   "port": 8080,
   "secret": "secretToken",
   "database":{
-    "useMock":false,
+    "useMock": false,
     "name": "MyCamp",
     "host":"localhost",
     "user":"root",
     "password":"root"
+  },
+  "ssh":{
+    "enabled":false,
+    "host": "localhost",
+    "username": "cabox",
+    "password":""
   }
 }

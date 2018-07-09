@@ -9,6 +9,10 @@ export default class User {
     this.password = data.password;
   }
   
+  getProjects() {
+    return db.findProjectsByUserId(this.id);
+  }
+  
   static create(data) {
     return new Promise((resolve, reject) => {
       if(!data.email || !data.password){
@@ -19,16 +23,25 @@ export default class User {
           return reject(new Error("Email already used"));
         }
         db.insertUser(data).then(user => {
-          resolve(user);
+          SSH.registerUser(user.email, data.unsecuredPassword).then(_ => {
+            resolve(user);
+          });
         });
       });
     });
   }
   
-  static load(email) {
+  static loadByEmail(email) {
     return new Promise((resolve, reject) => {
-      console.log(JSON.stringify(db));
       db.findUserByEmail(email).then(user => {
+          resolve(user);
+      });
+    });
+  }
+  
+  static loadById(id) {
+    return new Promise((resolve, reject) => {
+      db.findUserById(id).then(user => {
           resolve(user);
       });
     });
