@@ -23,7 +23,7 @@
     "react-scripts": "1.1.4"
   },
   "scripts": {
-    "start": "concurrently 'npm run backend:start' 'npm run frontend:start'",
+    "start": "npm run backend:start",
     "dev": "concurrently 'npm run backend:dev' 'npm run frontend:start'",
     "prod": "npm run frontend:build && npm run backend:start",
     "frontend:start": "react-scripts start",
