@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const port = 80;
+const port = 8080;
 
 const request = axios.create({
   baseURL: 'http://'+window.location.hostname+':'+port+'/api',
